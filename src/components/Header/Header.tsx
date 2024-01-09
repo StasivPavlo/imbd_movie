@@ -2,35 +2,40 @@ import { FC } from 'react';
 import { AppBar, Badge, Box, IconButton, Toolbar, Typography } from '@mui/material';
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
 import { SearchField } from '../SearchField/SearchField';
+import { Link } from 'react-router-dom';
 
-interface Props {
-  setSearch: (value: string) => void;
-}
-
-export const Header: FC<Props> = ({ setSearch }) => (
+export const Header: FC = () => (
   <AppBar position="sticky">
     <Toolbar>
-      <Typography
-        variant="h6"
-        noWrap
-        component="div"
-        sx={{ display: { xs: 'none', sm: 'block' } }}
-      >
-        IMDb
-      </Typography>
+      <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          sx={{ display: { xs: 'none', sm: 'block' } }}
+        >
+          IMDb
+        </Typography>
+      </Link>
 
-      <SearchField setSearch={setSearch} />
+      <SearchField />
 
       <Box sx={{ flexGrow: 1 }} />
       <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
         <IconButton size="large" color="inherit">
           <Badge badgeContent={0} color="error">
-            <MailIcon />
+            <VisibilityOffIcon />
+          </Badge>
+        </IconButton>
+        <IconButton size="large" color="inherit">
+          <Badge badgeContent={0} color="error">
+            <VisibilityIcon />
           </Badge>
         </IconButton>
         <IconButton
@@ -38,7 +43,7 @@ export const Header: FC<Props> = ({ setSearch }) => (
           color="inherit"
         >
           <Badge badgeContent={0} color="error">
-            <NotificationsIcon />
+            <FavoriteBorderIcon />
           </Badge>
         </IconButton>
         <IconButton

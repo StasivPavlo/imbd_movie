@@ -2,6 +2,8 @@ import { FC, useState } from 'react';
 import { InputBase, alpha, styled } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
+import { useDispatch } from 'react-redux';
+import * as searchAction from '../../app/searchSlice';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -43,12 +45,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-interface Props {
-  setSearch: (value: string) => void;
-}
-
-export const SearchField: FC<Props> = ({ setSearch }) => {
+export const SearchField: FC = () => {
   const [value, setValue] = useState('');
+  const dispatch = useDispatch();
 
   return (
     <Search>
@@ -61,7 +60,7 @@ export const SearchField: FC<Props> = ({ setSearch }) => {
         onChange={e => setValue(e.target.value)}
         onKeyDown={e => {
           if (e.key === 'Enter') {
-            setSearch(value);
+            dispatch(searchAction.set(value));
           }
         }}
         inputProps={{ 'aria-label': 'search' }}
