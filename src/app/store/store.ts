@@ -4,6 +4,7 @@ import likedMoviesSlice from "./likedMoviesSlice";
 import watchedMovieSlice from "./watchedMoviesSlice";
 import wishlistMoviesSlice from "./wishlistMoviesSlice";
 import _ from 'lodash';
+import userSlice from "./userSlice";
 
 const preloadedState: Reducer = {
   search: { value: '' },
@@ -16,6 +17,7 @@ export const store = configureStore({
     likedMovies: likedMoviesSlice,
     watchedMovies: watchedMovieSlice,
     wishlistMovies: wishlistMoviesSlice,
+    user: userSlice,
   },
   preloadedState,
 });

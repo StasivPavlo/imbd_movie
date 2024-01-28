@@ -12,12 +12,14 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 
 import { SearchField } from '../SearchField/SearchField';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector, useAuth } from '../../app/hooks';
 
 export const Header: FC = () => {
   const likedMovies = useAppSelector(state => state.likedMovies);
   const watchedMovies = useAppSelector(state => state.watchedMovies);
   const wishlistMovies = useAppSelector(state => state.wishlistMovies);
+
+  const user = useAuth();
 
   return (
     <AppBar position="sticky">
@@ -37,24 +39,28 @@ export const Header: FC = () => {
 
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <IconButton size="large" color="inherit">
-            <Badge badgeContent={wishlistMovies.length} color="error">
-              {wishlistMovies.length > 0 ? <VisibilityOffIcon /> : <VisibilityOffOutlinedIcon />}
-            </Badge>
-          </IconButton>
-          <IconButton size="large" color="inherit">
-            <Badge badgeContent={watchedMovies.length} color="error">
-              {watchedMovies.length > 0 ? <VisibilityIcon /> : <VisibilityOutlinedIcon />}
-            </Badge>
-          </IconButton>
-          <IconButton
-            size="large"
-            color="inherit"
-          >
-            <Badge badgeContent={likedMovies.length} color="error">
-              {likedMovies.length > 0 ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-            </Badge>
-          </IconButton>
+          {!!user.uid && (
+            <>
+              <IconButton size="large" color="inherit">
+                <Badge badgeContent={wishlistMovies.length} color="error">
+                  {wishlistMovies.length > 0 ? <VisibilityOffIcon /> : <VisibilityOffOutlinedIcon />}
+                </Badge>
+              </IconButton>
+              <IconButton size="large" color="inherit">
+                <Badge badgeContent={watchedMovies.length} color="error">
+                  {watchedMovies.length > 0 ? <VisibilityIcon /> : <VisibilityOutlinedIcon />}
+                </Badge>
+              </IconButton>
+              <IconButton
+                size="large"
+                color="inherit"
+              >
+                <Badge badgeContent={likedMovies.length} color="error">
+                  {likedMovies.length > 0 ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                </Badge>
+              </IconButton>
+            </>
+          )}
           <Link to="/profile" style={{ color: 'inherit' }}>
             <IconButton
               size="large"

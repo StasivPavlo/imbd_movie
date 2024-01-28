@@ -17,3 +17,9 @@ export const getMovieById = async (id: string): Promise<Movie> => {
 
   return data.json();
 }
+
+export const getMoviesById = async (moviesId: string[]) => moviesId.map(async (id): Promise<MovieShort> => {
+  const data = await fetch(`https://www.omdbapi.com/?apikey=186be766&i=${id}`);
+
+  return data.json();
+});

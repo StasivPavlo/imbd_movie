@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector, useAuth } from "../../app/hooks";
 import { useParams } from "react-router-dom";
 import { getMovieById } from "../../app/api";
 import { Movie } from "../../app/types/Movie";
@@ -44,6 +44,8 @@ export const MoviePage: FC = () => {
   const likedMovies = useAppSelector(state => state.likedMovies);
   const watchedMovies = useAppSelector(state => state.watchedMovies);
   const wishlistMovies = useAppSelector(state => state.wishlistMovies);
+
+  const user = useAuth();
 
   const dispatch = useDispatch();
 
@@ -109,17 +111,19 @@ export const MoviePage: FC = () => {
         <Box sx={{ ml: 2 }} width={'100%'}>
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="h3" component="h1">{movie.Title}</Typography>
-            <Box>
-              <IconButton onClick={() => onWishlistButtonClick(movie.imdbID)} color="primary">
-                {isInWishlist ? <VisibilityOffIcon /> : <VisibilityOffOutlinedIcon />}
-              </IconButton>
-              <IconButton onClick={() => onWatchedButtonClick(movie.imdbID)} color="primary">
-                {isWatched ? <VisibilityIcon /> : <VisibilityOutlinedIcon />}
-              </IconButton>
-              <IconButton onClick={() => onFavoriteButtonClick(movie.imdbID)} color="primary">
-                {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-              </IconButton>
-            </Box>
+            {!!user.uid && (
+              <Box>
+                <IconButton onClick={() => onWishlistButtonClick(movie.imdbID)} color="primary">
+                  {isInWishlist ? <VisibilityOffIcon /> : <VisibilityOffOutlinedIcon />}
+                </IconButton>
+                <IconButton onClick={() => onWatchedButtonClick(movie.imdbID)} color="primary">
+                  {isWatched ? <VisibilityIcon /> : <VisibilityOutlinedIcon />}
+                </IconButton>
+                <IconButton onClick={() => onFavoriteButtonClick(movie.imdbID)} color="primary">
+                  {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                </IconButton>
+              </Box>
+            )}
           </Box>
           <TableContainer>
             <Table>
